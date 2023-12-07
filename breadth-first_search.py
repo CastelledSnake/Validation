@@ -51,6 +51,9 @@ class HanoiConfig:
                 raise TypeError("There are 3 positions in Hanoi Towers : A, B and C.")
         self.configuration = string
 
+    def __repr__(self):
+        return self.configuration
+
 
 class HanoiRGraph:
     def __init__(self, n: int):
@@ -95,14 +98,25 @@ class HanoiRGraph:
         return list(set(new_solutions))
 
     def is_solution(self, n: int):
-        newest_confs = []
-        while self.final not in self.graph:
-            my_conf = newest_confs.pop(0)
-            if my_conf not in self.graph:
-                new_sols = self.neighbours(my_conf)
+        new_confs = [self.root]
+        iter_limit = 0
+        self.graph = {}
+        while (self.final.configuration not in self.graph) and (iter_limit < n) :
+            studied_conf = new_confs.pop(0)
+            if studied_conf.configuration not in self.graph:
+                self.graph[studied_conf.configuration] = []
+                new_sols = self.neighbours(studied_conf.configuration)
                 for k in range(len(new_sols)):
-                    newest_confs.append(HanoiConfig(new_sols[k]).configuration)
-                
+                    new_neighbour = HanoiConfig(new_sols[k])
+                    new_confs.append(new_neighbour)
+                    self.graph[studied_conf.configuration].append(new_neighbour.configuration)
+                    if new_neighbour.configuration in self.graph:
+                        if studied_conf.configuration not in self.graph[new_neighbour.configuration]:
+                            self.graph[studied_conf.configuration].append(new_neighbour.configuration)
+                        # else:
+                        #    print(f"{self.graph[new_neighbour.configuration]} possède déjà {studied_conf}")
+            iter_limit += 1
+        return self.graph
 
 
 if __name__ == "__main__":
@@ -111,4 +125,4 @@ if __name__ == "__main__":
 
     # print(bfs_traversal(rooted_graph_1))
     hg_init = HanoiRGraph(3)
-    print(hg_init.neighbours(hg_init.root.configuration))
+    print(hg_init.is_solution(100))
