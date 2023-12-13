@@ -1,4 +1,4 @@
-def read_graph(graph: list):
+def very_old_read_graph(graph: list):
     """
     Reads a graph, which is supposed to be a list of lists of ...
     The value of a node must be integer, float or string.
@@ -33,7 +33,7 @@ def read_graph(graph: list):
         return output[:-2]  # We erase the last ", " characters in the output.
 
 
-def nice_graph(graph: list, result: str = "", indent: int = 0):
+def very_old_nice_graph(graph: list, result: str = "", indent: int = 0):
     """
     Reads a graph, which is supposed to be a list of lists of ...
     The value of a node must be integer, float or string.
@@ -85,10 +85,10 @@ if __name__ == "__main__":
     graphe_2 = [0, [1, 2, 3]]
     graphe_3 = ["bla", [], ["bleble", ["bliblibli", "bloblo"], "blu"]]
 
-    print(read_graph(graphe_vide))
-    print(read_graph(graphe_0))
-    print(read_graph(graphe_1))
-    print(read_graph(graphe_2))
-    print(read_graph(graphe_3))
+    print(very_old_read_graph(graphe_vide))
+    print(very_old_read_graph(graphe_0))
+    print(very_old_read_graph(graphe_1))
+    print(very_old_read_graph(graphe_2))
+    print(very_old_read_graph(graphe_3))
 
-    print(nice_graph(graphe_3))
+    print(very_old_nice_graph(graphe_3))

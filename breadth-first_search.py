@@ -1,16 +1,16 @@
-class RootedGraph:
+class OldRootedGraph:
     def __init__(self, graph: dict):
-        self.racine = 1
+        self.racines = [1]
         self.struct: dict = graph
 
     def root(self):
-        return self.racine
+        return self.racines
 
     def neighbours(self, node):
         return self.struct[node]
 
     def parents_graph(self):
-        parents_graph = RootedGraph({})
+        parents_graph = OldRootedGraph({})
         for node in self.struct:
             if node not in parents_graph.struct:
                 parents_graph.struct[node] = []
@@ -26,20 +26,19 @@ class RootedGraph:
 def bfs_traversal(rg, query=0):
     i = True  # Variable de commencement
     f = []  # Frontière : liste des nœuds connus, mais pas explorés.
-    k = ()  # Ensemble des nœuds déjà parcourus.
+    k = set()  # Ensemble des nœuds déjà parcourus.
     while f != [] or i:
         if i:
-            node = rg.root()
+            node = rg.root()[0]
             f = rg.neighbours(node)
-            k = k + (node,)
+            k.add(node)
             i = False
         else:
             node = f.pop(0)
         for voisin in rg.neighbours(node):
-            if voisin not in k:
-                k = k + (voisin,)
-                if voisin == query:
-                    return k
+            k.add(voisin)
+            if voisin == query:
+                return k
     return k
 
 
@@ -58,7 +57,7 @@ def bfs_traversal(rg, query=0):
 #       plus lourd (ou qui est vide).
 
 
-class HanoiConfig:
+class OldHanoiConfig:
     def __init__(self, string: str):
         for char in string:
             if char not in ['A', 'B', 'C']:
@@ -69,14 +68,14 @@ class HanoiConfig:
         return self.configuration
 
 
-class HanoiRGraph:
+class OldHanoiRGraph:
     def __init__(self, n: int):
         root, final = "", ""
         for k in range(n):
             root += "A"
             final += "C"
-        self.root = HanoiConfig(root)
-        self.final = HanoiConfig(final)
+        self.root = OldHanoiConfig(root)
+        self.final = OldHanoiConfig(final)
         self.graph = {self.root: []}
 
     def neighbours(self, state: str):
@@ -121,7 +120,7 @@ class HanoiRGraph:
                 self.graph[studied_conf.configuration] = []
                 new_sols = self.neighbours(studied_conf.configuration)
                 for k in range(len(new_sols)):
-                    new_neighbour = HanoiConfig(new_sols[k])
+                    new_neighbour = OldHanoiConfig(new_sols[k])
                     new_confs.append(new_neighbour)
                     self.graph[studied_conf.configuration].append(new_neighbour.configuration)
                     if new_neighbour.configuration in self.graph:
@@ -135,10 +134,12 @@ class HanoiRGraph:
 
 if __name__ == "__main__":
     struct_graph_1 = {1: [2, 3], 2: [3, 4], 3: [1], 4: []}
-    rooted_graph_1 = RootedGraph(struct_graph_1)
+    rooted_graph_1 = OldRootedGraph(struct_graph_1)
 
+    print(struct_graph_1)
     print(bfs_traversal(rooted_graph_1))
-    print(rooted_graph_1)
-    print(bfs_traversal(rooted_graph_1.parents_graph()))
+    print(struct_graph_1)
+    print(rooted_graph_1.struct)
+    print(rooted_graph_1.parents_graph())
     #hg_init = HanoiRGraph(3)
     #print(hg_init.is_solution(100))
