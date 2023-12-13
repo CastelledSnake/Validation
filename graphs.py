@@ -1,6 +1,5 @@
 from abc import ABC
 from collections import deque
-import typing
 
 # Nettoyer le bazar, pour laisser le duck typing ?
 # Ou bien trouver une manière de garder le static typing ?
@@ -43,6 +42,15 @@ class ParentTracer(RootedGraph):
             if neighbour not in self.parents:
                 self.parents[neighbour] = [node]
         return neighbours
+
+    def get_trace(self, solution):
+        trace = [solution]
+        parent = self.parents.get(solution)
+        while parent is not None and len(parent) > 0:
+            parent = parent[0]
+            trace.append(parent)
+            parent = self.parents[parent]
+        return trace
 
 
 """
@@ -118,7 +126,7 @@ class HanoiGraph(RootedGraph):
                 neighbour[disk] = 2
                 neighbours.append(tuple(neighbour))
 
-        #print("node", node, neighbours)
+        # print("node", node, neighbours)
         return neighbours
 
 
@@ -145,7 +153,7 @@ def bfs_search(rg, query):
     return None, visited
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
     # def a(n: Node) -> bool:
     #     return n == 2
@@ -161,4 +169,5 @@ if __name__ == '__main__':
     parent_tracer = ParentTracer(hanoi)
     t, k = bfs_search(parent_tracer, hanoi.is_solution)
     print(t, k)
-    parent_tracer.get_trace(t)
+    trace = parent_tracer.get_trace(t)
+    print(trace)
