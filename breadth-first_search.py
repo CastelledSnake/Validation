@@ -9,6 +9,19 @@ class RootedGraph:
     def neighbours(self, node):
         return self.struct[node]
 
+    def parents_graph(self):
+        parents_graph = RootedGraph({})
+        for node in self.struct:
+            if node not in parents_graph.struct:
+                parents_graph.struct[node] = []
+            children = self.neighbours(node)
+            for child in children:
+                if child in parents_graph.struct:
+                    parents_graph.struct[child].append(node)
+                else:
+                    parents_graph.struct[child] = [node]
+        return parents_graph
+
 
 def bfs_traversal(rg, query=0):
     i = True  # Variable de commencement
@@ -29,6 +42,7 @@ def bfs_traversal(rg, query=0):
                     return k
     return k
 
+
 # Pour les tours de Hanoï, la situation peut être représentée par un graphe.
 # Chaque nœud est une disposition possible du plateau. Pour un jeu à N disques de taille variant de 1 à N (u.a.) :
 #   Un nœud a pour nom (clé primaire) un ensemble de N lettres entre A, B et C tel que :
@@ -37,7 +51,7 @@ def bfs_traversal(rg, query=0):
 # Condition pour passer d'un état à un autre ⇔ changer la lettre du nom qui est en position n de X à Y :
 #   Aucun disque n'est présent au-dessus du disque n ⇔ aucune lettre d'indice <n ne vaut X.
 #   S'il existe un disque sur la position cible, il doit être plus grand que n ⇔ aucune lettre d'indice <n ne vaut Y.
-# Il y a au maximum 3  possibilités :
+# Il y a au maximum 3 possibilités :
 #   déplacer le disque le plus petit d'une tour vers une des deux autres (2 possibilités);
 #   si l'un au moins l'une des deux autres colonnes supporte un disque :
 #       déplacer le disque surfacique le plus léger (après LE plue léger) sur la colonne dont le disque surfacique est
@@ -123,6 +137,8 @@ if __name__ == "__main__":
     struct_graph_1 = {1: [2, 3], 2: [3, 4], 3: [1], 4: []}
     rooted_graph_1 = RootedGraph(struct_graph_1)
 
-    # print(bfs_traversal(rooted_graph_1))
-    hg_init = HanoiRGraph(3)
-    print(hg_init.is_solution(100))
+    print(bfs_traversal(rooted_graph_1))
+    print(rooted_graph_1)
+    print(bfs_traversal(rooted_graph_1.parents_graph()))
+    #hg_init = HanoiRGraph(3)
+    #print(hg_init.is_solution(100))
