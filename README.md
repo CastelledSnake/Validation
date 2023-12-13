@@ -18,7 +18,7 @@ git clone git@github.com:CastelledSnake/Validation
 python3 graphs.py
 ```
 
-*:construction: Work in progress for more features. :construction:*
+*🚧 Work in progress for more features. 🚧*
 
 ## Authors
 
