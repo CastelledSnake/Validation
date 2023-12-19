@@ -153,6 +153,59 @@ def bfs_search(rg, query):
     return None, visited
 
 
+class ABNode:
+    def __init__(self, name, guards, actions):
+        self.name: str = name
+        self.guards = guards
+        self.actions = actions
+
+
+class AliceAndBob(RootedGraph):
+    def __init__(self):
+        # The protagonists
+        self.alice = {}
+        self.bob = {}
+        #
+        self.turn = 0
+        # Alice and Bob don't want to go in the garden, initially.
+        self.fa = False
+        self.fb = False
+        # Initialising all nodes
+        self.init_a = ABNode("Initial_Alice", "", "fA = True, turn = 2")
+        self.wait_a = ABNode("Alice_Wait", "turn == 1 || fB == False", "")
+        self.critic_a = ABNode("Critical_Alice", "", "fA = False")
+        self.init_b = ABNode("Initial_Bob", "", "fB = True, turn = 1")
+        self.wait_b = ABNode("Alice_Bob", "turn == 2 || fA == False", "")
+        self.critic_b = ABNode("Critical_Bob", "", "fB = False")
+
+    def filling(self):
+        """
+        Fills alice and bob
+        :return: None
+        """
+        self.alice = {
+            self.init_a: [self.wait_a],
+            self.wait_a: [self.critic_a],
+            self.critic_a: [self.init_a]
+        }
+        self.bob = {
+            self.init_b: [self.wait_b],
+            self.wait_b: [self.critic_b],
+            self.critic_b: [self.init_b]}
+
+    def roots(self):
+        return [self.init_a, self.init_b]
+
+    def neighbours(self, node):
+        if node in self.alice:
+            return self.alice[node]
+        elif node in self.bob:
+            return self.bob[node]
+        else:
+            raise ValueError(f"Node {node} is not in alice or bob")
+    # IDEA : Define one function per action to perform, and per guard to test (8 of them in total).
+
+
 if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
     # def a(n: Node) -> bool:
