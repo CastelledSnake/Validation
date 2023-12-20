@@ -162,10 +162,10 @@ class ABNode:
 
 class AliceAndBob(RootedGraph):
     def __init__(self):
-        # The protagonists
+        # The protagonists (or their dog, or their cat, or whatever dangerous thing that should not be in a garden.
         self.alice = {}
         self.bob = {}
-        #
+        # Initially, nobody is in the garden.
         self.turn = 0
         # Alice and Bob don't want to go in the garden, initially.
         self.fa = False
@@ -205,6 +205,48 @@ class AliceAndBob(RootedGraph):
             raise ValueError(f"Node {node} is not in alice or bob")
     # IDEA : Define one function per action to perform, and per guard to test (8 of them in total).
 
+
+class Semantics(ABC):
+    def initial(self):
+        """
+        returns the initial states of the graph.
+        :return: a list of nodes.
+        """
+        pass
+
+    def actions(self, node):
+        """
+        returns the functions that a node can compute
+        :param node: a node
+        :return: a list of functions.
+        """
+        pass
+
+    def execute(self, action, node):
+        """
+        executes an action on the node
+        :param action: a function
+        :param node: a node
+        :return: action(node)
+        """
+        pass
+
+
+class OneBitClock(Semantics):
+    def initial(self):
+        return [0, 1]
+
+    def actions(self, c):
+        a = []
+        if c == 1:
+            a.append(lambda x: [0])
+        elif c == 0:
+            a.append(lambda x: [1])
+        return a
+
+    def execute(self, a, c):
+        return a(c)
+    
 
 if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
