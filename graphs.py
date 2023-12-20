@@ -186,12 +186,13 @@ class AliceAndBob(RootedGraph):
         self.alice = {
             self.init_a: [self.wait_a],
             self.wait_a: [self.critic_a],
-            self.critic_a: [self.init_a]
+            self.critic_a: [self.init_a],
         }
         self.bob = {
             self.init_b: [self.wait_b],
             self.wait_b: [self.critic_b],
-            self.critic_b: [self.init_b]}
+            self.critic_b: [self.init_b],
+        }
 
     def roots(self):
         return [self.init_a, self.init_b]
@@ -203,6 +204,7 @@ class AliceAndBob(RootedGraph):
             return self.bob[node]
         else:
             raise ValueError(f"Node {node} is not in alice or bob")
+
     # IDEA : Define one function per action to perform, and per guard to test (8 of them in total).
 
 
@@ -234,7 +236,7 @@ class Semantics(ABC):
 
 class OneBitClock(Semantics):
     def initial(self):
-        return [0, 1]
+        return [0]
 
     def actions(self, c):
         a = []
@@ -246,7 +248,29 @@ class OneBitClock(Semantics):
 
     def execute(self, a, c):
         return a(c)
-    
+
+
+class Semantics2RG(RootedGraph):
+    """
+    A class representing a rooted graph with semantics.
+
+    Attributes:
+        semantics: The semantics associated with the graph.
+    """
+
+    def __init__(self, semantics: Semantics):
+        self.semantics = semantics
+
+    def roots(self):
+        return self.semantics.initial()
+
+    def neighbours(self, node):
+        actions = self.semantics.actions(node)
+        neighbours = []
+        for action in actions: # type: ignore
+            neighbours.extend(self.semantics.execute(action, node)) # type: ignore
+        return list(set(neighbours))
+
 
 if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
@@ -260,9 +284,13 @@ if __name__ == "__main__":
     # print(bfs_search(rg, b))
 
     # hanoi = HanoiGraph(2, (0, 0))
-    hanoi = HanoiGraph(3, (0, 0, 0))
-    parent_tracer = ParentTracer(hanoi)
-    t, k = bfs_search(parent_tracer, hanoi.is_solution)
+    # hanoi = HanoiGraph(3, (0, 0, 0))
+    onebitclock = OneBitClock()
+    semantics2rg = Semantics2RG(onebitclock)
+    print(semantics2rg.roots())
+    parent_tracer = ParentTracer(semantics2rg)
+    t, k = bfs_search(parent_tracer, lambda x: False)
     print(t, k)
-    trace = parent_tracer.get_trace(t)
-    print(trace)
+    if t is not None:
+        trace = parent_tracer.get_trace(t)
+        print(trace)
