@@ -272,6 +272,31 @@ class Semantics2RG(RootedGraph):
         return list(set(neighbours))
 
 
+class AliceBob(Semantics):
+    def initial(self):
+        return ["ia", "ib"]
+
+    def actions(self, node):
+        a = []
+        if node == "ia":
+            a.append(lambda x: ["wa"])
+        elif node == "ib":
+            a.append(lambda x: ["wb"])
+        elif node == "wa":
+            a.append(lambda x: ["ca"])
+        elif node == "wb":
+            a.append(lambda x: ["cb"])
+        elif node == "ca":
+            a.append(lambda x: ["ia"])
+        elif node == "cb":
+            a.append(lambda x: ["ib"])
+        return a
+
+    def execute(self, action, node):
+        return action(node)
+
+
+
 if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
     # def a(n: Node) -> bool:
@@ -285,8 +310,8 @@ if __name__ == "__main__":
 
     # hanoi = HanoiGraph(2, (0, 0))
     # hanoi = HanoiGraph(3, (0, 0, 0))
-    onebitclock = OneBitClock()
-    semantics2rg = Semantics2RG(onebitclock)
+    alicebob = AliceBob()
+    semantics2rg = Semantics2RG(alicebob)
     print(semantics2rg.roots())
     parent_tracer = ParentTracer(semantics2rg)
     t, k = bfs_search(parent_tracer, lambda x: False)
