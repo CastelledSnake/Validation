@@ -48,10 +48,10 @@ source ensta_validation/bin/activate
 pip install .
 ```
 
-4. Run the `graphs.py` file
+4. Run the `main.py` file
 
 ```bash
-python3 graphs.py
+python3 main.py
 ```
 
 ## Features

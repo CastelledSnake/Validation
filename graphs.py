@@ -73,6 +73,7 @@ def bfs_search(rg: RootedGraph, query: typing.Callable[[Node], bool]):
     return (None, visited)
 """
 
+
 # def bfs_search(rg: RootedGraph, query: typing.Callable[[Node], bool]):
 def bfs_search(rg, query):
     visited = set()
