@@ -27,11 +27,11 @@ class Piece:
         return self.action(config)
 
 class SoupSpec:
-    def __init__(self, initialConfigs: List[SoupConfiguration], pieces:List[Piece]):
-        self.configs = initialConfigs
+    def __init__(self, initial_configs: List[SoupConfiguration], pieces:List[Piece]):
+        self.configs = initial_configs
         self.pieces = pieces
 
-    def enabledPieces(self, config: SoupConfiguration) -> List[Piece]:
+    def enabled_pieces(self, config: SoupConfiguration) -> List[Piece]:
         return list(filter(lambda p: p.enabled(config), self.pieces))
 
 
@@ -43,7 +43,7 @@ class SoupSemantics:
         self.spec.initial()
 
     def actions(self, config: SoupConfiguration):
-        self.spec.enabledPieces(config)
+        self.spec.enabled_pieces(config)
 
     def execute(self, action, config):
         return action.execute(config)
@@ -69,3 +69,23 @@ if __name__ == "__main__":
 
 
 # A faire : On a """fait""" une soupconfig de OneBitClock, il faut en faire une pour AliceetBob et Hanoi.
+<<<<<<< Updated upstream
+=======
+
+# Notes prises le 19/01/24:
+#                                 predicate-|.
+# Soup->SoupSemantic->Sem2RG->ParentTracer->bfs->getTrace
+#                                  |--------|^
+#
+# Il nous manque un langage de propriétés qui nous permet de tester toutes les fonctions calculables.
+# Pour faire le lien entre la SoupSemantic et la Semantic2RG.
+# Il nous faudra aussi un produit synchrone entre la SoupSemantic et le langage qu'on va créer.
+#       Il calculera l'intersection d'un modèle et la négation d'une propriété à tester.
+# Enfin, il nous manque un Det Cycle : un truc par-dessus le bfs pour détecter les mauvaises boucles d'exécution.
+
+
+
+
+
+
+>>>>>>> Stashed changes
