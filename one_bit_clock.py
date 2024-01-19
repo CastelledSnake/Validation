@@ -1,4 +1,4 @@
-from semantics import *
+from semantics import Semantics
 
 
 class OneBitClock(Semantics):

@@ -3,7 +3,7 @@ from typing import List
 
 class SoupConfiguration:
     def __hash__(self) -> int:
-        pass
+        return hash(self.__repr__())
 
     def __eq__(self, __value: object) -> bool:
         if isinstance(__value, SoupConfiguration):
@@ -11,7 +11,7 @@ class SoupConfiguration:
         return NotImplemented
 
     def __repr__(self) -> str:
-        pass
+        return "SoupConfiguration"
 
 
 class Piece:
@@ -25,7 +25,6 @@ class Piece:
 
     def execute(self, config: SoupConfiguration):
         return self.action(config)
-
 
 class SoupSpec:
     def __init__(self, initialConfigs: List[SoupConfiguration], pieces:List[Piece]):

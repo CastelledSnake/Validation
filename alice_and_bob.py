@@ -1,5 +1,5 @@
-from graphs import *
-from semantics import *
+from graphs import RootedGraph
+from semantics import Semantics
 
 
 class ABNode:
