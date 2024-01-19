@@ -1,4 +1,5 @@
 from typing import List
+from semantics_to_rooted_graph import *
 
 
 class SoupConfiguration:
@@ -15,6 +16,12 @@ class SoupConfiguration:
 
 
 class Piece:
+    """
+    La Piece décrit comment passer d'un état (noeud) A à un état B. C'est donc une combinaison (Gardes, Actions).
+    Mais on ajoute aussi un composant dans la garde, pour savoir si je suis dans l'état A au départ (state == A),
+        et il y a dans l'action de la Piece, le changement d'état vers B (state = B).
+    A chaque étape, la sémantique regarde quelles sont les pièces dont la garde vérifie les conditions présentes.
+    """
     def __init__(self, name: str):
         self.name: str = name
         self.guard = lambda c: c.clock == 1
@@ -25,6 +32,7 @@ class Piece:
 
     def execute(self, config: SoupConfiguration):
         return self.action(config)
+
 
 class SoupSpec:
     def __init__(self, initial_configs: List[SoupConfiguration], pieces:List[Piece]):
@@ -69,8 +77,6 @@ if __name__ == "__main__":
 
 
 # A faire : On a """fait""" une soupconfig de OneBitClock, il faut en faire une pour AliceetBob et Hanoi.
-<<<<<<< Updated upstream
-=======
 
 # Notes prises le 19/01/24:
 #                                 predicate-|.
@@ -87,5 +93,3 @@ if __name__ == "__main__":
 
 
 
-
->>>>>>> Stashed changes

@@ -5,13 +5,13 @@ class OneBitClock(Semantics):
     def initial(self):
         return [0, 1]
 
-    def actions(self, c):
-        a = []
-        if c == 1:
-            a.append(lambda x: [0])
-        elif c == 0:
-            a.append(lambda x: [1])
-        return a
+    def actions(self, configuration):
+        action = []
+        if configuration == 1:
+            action.append(lambda x: [0])
+        elif configuration == 0:
+            action.append(lambda x: [1])
+        return action
 
-    def execute(self, a, c):
-        return a(c)
+    def execute(self, action, configuration):
+        return action(configuration)

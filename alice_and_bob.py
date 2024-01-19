@@ -10,45 +10,79 @@ class ABNode:
 
 
 class AliceAndBob(RootedGraph):
+
     def __init__(self):
         # Initially, nobody is in the garden.
         self.turn = 0
         # Alice and Bob don't want to go in the garden, initially.
         self.fa = False
         self.fb = False
-        # Initialising all nodes
-        """
-        self.init_a = ABNode("Initial_Alice", "", "fA = True, turn = 2")
-        self.wait_a = ABNode("Alice_Wait", "turn == 1 || fB == False", "")
-        self.critic_a = ABNode("Critical_Alice", "", "fA = False")
-        self.init_b = ABNode("Initial_Bob", "", "fB = True, turn = 1")
-        self.wait_b = ABNode("Alice_Bob", "turn == 2 || fA == False", "")
-        self.critic_b = ABNode("Critical_Bob", "", "fB = False")
-        """
-        self.init_a = ABNode("Initial_Alice", [True], "fA = True, turn = 2")
-        self.wait_a = ABNode("Alice_Wait", [self.turn == 1 and self.fb == False], "")
-        self.critic_a = ABNode("Critical_Alice", [True], "fA = False")
-        self.init_b = ABNode("Initial_Bob", [True], "fB = True, turn = 1")
-        self.wait_b = ABNode("Alice_Bob", [self.turn == 2 and self.fa == False], "")
-        self.critic_b = ABNode("Critical_Bob", [True], "fB = False")
+        # Defining all nodes
+        self.init_a = ABNode("Initial_Alice", self.guard_i_a, self.action_i_a)
+        self.wait_a = ABNode("Alice_Wait", self.guard_w_a, self.action_w_a)
+        self.critic_a = ABNode("Critical_Alice", self.guard_c_a, self.action_c_a)
+        self.init_b = ABNode("Initial_Bob", self.guard_i_b, self.action_i_b)
+        self.wait_b = ABNode("Alice_Bob", self.guard_w_b, self.action_w_b)
+        self.critic_b = ABNode("Critical_Bob", self.guard_c_b, self.action_c_b)
         # The protagonists (or their dog, or their cat, or whatever dangerous thing that should not be in a garden.
-        self.alice = {self.init_a}
-        self.bob = {self.init_b}
+        self.alice, self.bob = self.filling()
+
+    # Set of guards
+    def guard_i_a(self):
+        return True
+
+    def guard_w_a(self):
+        return self.turn == 1 and self.fa is False
+
+    def guard_c_a(self):
+        return True
+
+    def guard_i_b(self):
+        return True
+
+    def guard_w_b(self):
+        return self.turn == 2 and self.fb is False
+
+    def guard_c_b(self):
+        return True
+
+    # Set of actions
+    def action_i_a(self):
+        self.fa = True
+        self.turn = 2
+
+    def action_w_a(self):
+        pass
+
+    def action_c_a(self):
+        self.fa = False
+
+    def action_i_b(self):
+        self.fb = True
+        self.turn = 1
+
+    def action_w_b(self):
+        pass
+
+    def action_c_b(self):
+        self.fb = False
 
     def filling(self):
         """
         Fills alice and bob
         :return: None
         """
-        self.alice = {
+        alice = {
             self.init_a: [self.wait_a],
             self.wait_a: [self.critic_a],
             self.critic_a: [self.init_a]
         }
-        self.bob = {
+        bob = {
             self.init_b: [self.wait_b],
             self.wait_b: [self.critic_b],
-            self.critic_b: [self.init_b]}
+            self.critic_b: [self.init_b]
+        }
+        return alice, bob
 
     def roots(self):
         return [self.init_a, self.init_b]

@@ -4,7 +4,6 @@ from hanoi import *
 from one_bit_clock import *
 from parcours_graphe import *
 from semantics import *
-from setup import *
 from soup_language import *
 
 
