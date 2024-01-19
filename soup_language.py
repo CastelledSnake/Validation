@@ -22,6 +22,7 @@ class Piece:
         et il y a dans l'action de la Piece, le changement d'état vers B (state = B).
     A chaque étape, la sémantique regarde quelles sont les pièces dont la garde vérifie les conditions présentes.
     """
+
     def __init__(self, name: str):
         self.name: str = name
         self.guard = lambda c: c.clock == 1
@@ -35,7 +36,7 @@ class Piece:
 
 
 class SoupSpec:
-    def __init__(self, initial_configs: List[SoupConfiguration], pieces:List[Piece]):
+    def __init__(self, initial_configs: List[SoupConfiguration], pieces: List[Piece]):
         self.configs = initial_configs
         self.pieces = pieces
 
@@ -48,7 +49,7 @@ class SoupSemantics:
         self.spec = spec
 
     def initial(self):
-        self.spec.initial()
+        self.spec.initial()  # type: ignore
 
     def actions(self, config: SoupConfiguration):
         self.spec.enabled_pieces(config)
@@ -73,7 +74,7 @@ if __name__ == "__main__":
     p2 = Piece("0->1")
     soup = SoupSpec([OBCConfig(0)], [p1, p2])
     soup_sem = SoupSemantics(soup)
-    s = Sem2RG(soup_sem)
+    # s = Sem2RG(soup_sem)
 
 
 # A faire : On a """fait""" une soupconfig de OneBitClock, il faut en faire une pour AliceetBob et Hanoi.
@@ -88,8 +89,3 @@ if __name__ == "__main__":
 # Il nous faudra aussi un produit synchrone entre la SoupSemantic et le langage qu'on va créer.
 #       Il calculera l'intersection d'un modèle et la négation d'une propriété à tester.
 # Enfin, il nous manque un Det Cycle : un truc par-dessus le bfs pour détecter les mauvaises boucles d'exécution.
-
-
-
-
-
