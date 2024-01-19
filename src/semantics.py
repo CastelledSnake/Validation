@@ -28,4 +28,5 @@ class Semantics(ABC):
 
 
 class Sem2RG:
+    # TODO: implement this
     pass
