@@ -15,6 +15,7 @@
     ],
     "conventionalCommits.scopes": [
         "config",
-        "graph"
+        "graph",
+        "semantics"
     ]
 }
