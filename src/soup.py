@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, List
 from src.semantics import Semantics
 
 
@@ -11,6 +11,25 @@ class SoupConfiguration:
         pass
 
 
+class Piece:
+    """Piece
+    La Piece décrit comment passer d'un état (noeud) A à un état B. C'est donc une combinaison (Gardes, Actions).
+    Mais on ajoute aussi un composant dans la garde, pour savoir si je suis dans l'état A au départ (state == A),
+        et il y a dans l'action de la Piece, le changement d'état vers B (state = B).
+    A chaque étape, la sémantique regarde quelles sont les pièces dont la garde vérifie les conditions présentes.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        guard: Callable[[SoupConfiguration], bool],
+        action: Callable[[SoupConfiguration], SoupConfiguration],
+    ) -> None:
+        self.name = name
+        self.guard = guard
+        self.action = action
+
+
 class SoupSpec:
     """Soup specification
     Classe définissant la soupe de pièces.
@@ -18,8 +37,15 @@ class SoupSpec:
     Et permet de vérifier que les gardes des pièces correspondent à la configuration qu'on donne à SoupSpec.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, configurations: List[SoupConfiguration], pieces: List[Piece]):
+        self.configurations = configurations
+        self.pieces = pieces
+
+    def initial(self):
+        return self.configurations
+
+    def enabled_pieces(self, configuration: SoupConfiguration):
+        return [piece for piece in self.pieces if piece.guard(configuration)]
 
 
 class SoupSemantic(Semantics):
@@ -37,29 +63,11 @@ class SoupSemantic(Semantics):
     (à vérifier)
     """
 
+    def __init__(self, spec: SoupSpec) -> None:
+        self.spec = spec
+
     def initial(self):
-        # TODO: implement this
-        return NotImplementedError
+        return self.spec.initial()
 
     def actions(self, configuration: SoupConfiguration):
-        pieces = (
-            configuration.pieces
-        )  # TODO: A verifier => récup les pieces à tout prix !
-        for piece in pieces:
-            if piece.cond(configuration):
-                return piece.lbda(configuration)
-
-
-class Piece:
-    """Piece
-    La Piece décrit comment passer d'un état (noeud) A à un état B. C'est donc une combinaison (Gardes, Actions).
-    Mais on ajoute aussi un composant dans la garde, pour savoir si je suis dans l'état A au départ (state == A),
-        et il y a dans l'action de la Piece, le changement d'état vers B (state = B).
-    A chaque étape, la sémantique regarde quelles sont les pièces dont la garde vérifie les conditions présentes.
-    """
-
-    def __init__(self, name: str, cond, lbda) -> None:
-        self.name = name
-        self.cond = "soemthing"
-        self.lbda = "lambda syntax"
-        # TODO: implement this
+        return self.spec.enabled_pieces(configuration)
