@@ -1,4 +1,4 @@
-from typing import List
+from typing import Callable, List
 from semantics_to_rooted_graph import *
 
 
@@ -23,9 +23,9 @@ class Piece:
     A chaque étape, la sémantique regarde quelles sont les pièces dont la garde vérifie les conditions présentes.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, guard: Callable[[SoupConfiguration], bool] = lambda c: True, action: Callable[[SoupConfiguration], None] = lambda c: None):
         self.name: str = name
-        self.guard = lambda c: c.clock == 1
+        self.guard = guard
         self.action = lambda c: None
 
     def enabled(self, config: SoupConfiguration):
