@@ -1,6 +1,6 @@
 from abc import ABC
 from typing import Callable, List
-from semantics_to_rooted_graph import *
+from semantics import SemToRG
 from copy import deepcopy
 
 
@@ -24,6 +24,7 @@ class Piece:
         et il y a dans l'action de la Piece, le changement d'état vers B (state = B).
         C'est ainsi un ensemble (nœud_départ, gardes, actions, nœud_arrivée).
     """
+
     def __init__(
         self,
         name: str,
@@ -116,7 +117,7 @@ if __name__ == "__main__":
     p2 = Piece("0->1")
     soup = SoupSpec([OBCConfig(0)], [p1, p2])
     soup_sem = SoupSemantics(soup)
-    s = Sem2RG(soup_sem)
+    s = SemToRG(soup_sem)
 
 
 # À faire : On a """fait""" une SoupConfiguration de OneBitClock, il faut en faire une pour AliceEtBob et Hanoi.
