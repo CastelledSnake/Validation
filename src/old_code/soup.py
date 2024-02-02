@@ -1,5 +1,6 @@
 from typing import Callable, List
-from src.semantics import Semantics
+
+from old_code.semantics import Semantics
 
 
 class SoupConfiguration:

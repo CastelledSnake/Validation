@@ -1,8 +1,9 @@
-
 # Nettoyer le bazar, pour laisser le duck typing ?
 # Ou bien trouver une manière de garder le static typing ?
 
 from graph.rooted_graph import RootedGraph
+from old_code.semantics import Semantics
+from old_code.soup import SoupSpec
 
 
 Node = int
@@ -63,3 +64,43 @@ class HanoiGraph(RootedGraph):
 
         # print("node", node, neighbours)
         return neighbours
+
+
+class HanoiSemantics(Semantics):
+    def initial(self) -> list[HanoiNode]:
+        """
+        returns the initial states of the graph.
+        :return: a list of nodes.
+        """
+        return [(0, 0, 0)]
+
+    def actions(self, configuration: HanoiNode):
+        """
+        returns the functions that a node can compute
+        :param configuration: a node
+        :return: a list of functions.
+        """
+        raise NotImplementedError
+
+    def execute(self, action, configuration: HanoiNode) -> HanoiNode:
+        """
+        executes an action on the node
+        :param action: a function
+        :param configuration: a node
+        :return: action(node)
+        """
+        return action(configuration)
+
+
+class HanoiSoupSpec(SoupSpec):
+    def __init__(self, semantics: HanoiSemantics):
+        self.semantics = semantics
+
+    def initial(self):
+        return self.semantics.initial()
+
+    def actions(self, configuration):
+        return self.semantics.actions(configuration)
+
+    def execute(self, action, configuration):
+        return self.semantics.execute(action, configuration)
