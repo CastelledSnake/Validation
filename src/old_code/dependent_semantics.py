@@ -1,7 +1,7 @@
 from abc import ABC
 from copy import deepcopy
 
-from soup_language import Piece, SoupSpec, SoupConfiguration
+from soup_language import Piece, SoupConfiguration, SoupSpec
 
 
 class DependentSemantics(ABC):
