@@ -1,7 +1,6 @@
 from graph.parent_tracer import ParentTracer
-from old_code.graphs import bfs_search
-from old_code.hanoi import HanoiGraph
-
+from graphs import bfs_search
+from hanoi import HanoiGraph
 
 if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
@@ -18,9 +17,10 @@ if __name__ == "__main__":
     hanoi = HanoiGraph(3, (0, 0, 0))
     parent_tracer = ParentTracer(hanoi)
     t, k = bfs_search(parent_tracer, hanoi.is_solution)
-    print(t, k)
+    print("t: ", t, "\nk: ", k)
     trace = parent_tracer.get_trace(t)
-    print(trace)
+    print("\n trace: ", trace)
+    print("neighbours: ", hanoi.neighbours((0, 0, 0)))
 
     # Pour prochaine fois : Alice et Bob avec un parcours jusqu'à la solution (stateA = critic and stateB = c), vérifier
     # l'absence de deadlock, mais la présence d'un livelock.

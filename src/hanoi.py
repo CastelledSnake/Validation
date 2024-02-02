@@ -1,7 +1,9 @@
-from graphs import *
 
 # Nettoyer le bazar, pour laisser le duck typing ?
 # Ou bien trouver une manière de garder le static typing ?
+
+from graph.rooted_graph import RootedGraph
+
 
 Node = int
 HanoiNode = tuple[int, ...]

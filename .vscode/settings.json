@@ -16,6 +16,7 @@
     "conventionalCommits.scopes": [
         "config",
         "graph",
-        "semantics"
+        "semantics",
+        "hanoi"
     ]
 }
