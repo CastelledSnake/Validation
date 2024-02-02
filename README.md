@@ -70,6 +70,14 @@ Date limite du rendu du projet: **Lundi 12/02/2024**
 TODO before final release:
 
 - [ ] Finish implementation of the different types of validation
+  - [ ] Implementation of AliceBob V1 (ou 0) (for @LBF38)
+    - [ ] graph
+    - [ ] semantics
+    - [ ] soup
+  - [ ] Implementation of AliceBob V2 & 3 (for @CastelledSnake)
+    - [ ] graph
+    - [ ] semantics
+    - [ ] soup
 - [ ] Finish tests
 - [ ] Add documentation (some comments on the implementation)
 - [ ] Add comments for improvements on the course
