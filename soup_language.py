@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import Callable, List
 from semantics_to_rooted_graph import *
 from copy import deepcopy
 
@@ -24,9 +24,14 @@ class Piece:
         et il y a dans l'action de la Piece, le changement d'état vers B (state = B).
         C'est ainsi un ensemble (nœud_départ, gardes, actions, nœud_arrivée).
     """
-    def __init__(self, name: str, guards, action):
+    def __init__(
+        self,
+        name: str,
+        guard: Callable[[SoupConfiguration], bool] = lambda c: True,
+        action: Callable[[SoupConfiguration], None] = lambda c: None,
+    ):
         self.name: str = name
-        self.guards = guards  # lambda c: c.clock == 1
+        self.guards = guard  # guard
         self.action = action  # lambda c: None
 
     def __str__(self):
@@ -47,6 +52,7 @@ class SoupSpec:
     Prend une liste de configuration(s) initiale(s) et une liste de Pieces.
     Son rôle est de comparer la/les configuration(s) initiale(s) et les gardes des Pieces.
     """
+
     def __init__(self, initial_configs: List[SoupConfiguration], pieces: List[Piece]):
         self.configs = initial_configs
         self.pieces = pieces
@@ -71,11 +77,12 @@ class SoupSemantics:
     """
     Permet de déterminer la sémantique d'une SoupSpecification.
     """
+
     def __init__(self, spec: SoupSpec):
         self.spec = spec
 
     def initial(self):
-        return self.spec.initial()
+        return self.spec.initial()  # type: ignore
 
     def actions(self, config: SoupConfiguration):
         return self.spec.enabled_pieces(config)
@@ -88,6 +95,7 @@ class OBCConfig(SoupConfiguration):
     """
     Mise en œuvre d'une configuration d'une horloge binaire (One Bit Clock).
     """
+
     def __init__(self, init_clock: int):
         self.clock = init_clock
 
@@ -108,7 +116,7 @@ if __name__ == "__main__":
     p2 = Piece("0->1")
     soup = SoupSpec([OBCConfig(0)], [p1, p2])
     soup_sem = SoupSemantics(soup)
-    s = SemToRG(soup_sem)
+    s = Sem2RG(soup_sem)
 
 
 # À faire : On a """fait""" une SoupConfiguration de OneBitClock, il faut en faire une pour AliceEtBob et Hanoi.
