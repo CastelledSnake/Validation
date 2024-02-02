@@ -70,7 +70,6 @@ class AliceAndBob(RootedGraph):
     def filling(self):
         """
         Fills alice and bob
-        :return: None
         """
         alice = {
             self.init_a: [self.wait_a],

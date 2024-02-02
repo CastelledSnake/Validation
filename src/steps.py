@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 from copy import deepcopy
+
 from graph.breadth_first_search import bfs
 from semantics import Semantics
-from soup import Piece, SoupSemantic, SoupSpec
+from soup import Piece, SoupSemantic
 
 
 class StepSyncComposition(Semantics):
