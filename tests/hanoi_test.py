@@ -7,7 +7,7 @@ from graph.parent_tracer import ParentTracer
 from hanoi import HanoiGraph
 
 
-class TestHanoi:
+class TestHanoiGraph:
     @pytest.fixture
     def setup(self):
         self.hanoi_graph = HanoiGraph(3, (0, 0, 0))
@@ -30,8 +30,12 @@ class TestHanoi:
         trace = self.parent_tracer.get_trace(t)
         assert trace[0] == (2, 2, 2)  # The last state should be the solution state
 
-    def test_semantics(self):
-        pass
 
+class TestHanoiSemantics:
+    def test_semantics(self):
+        raise NotImplementedError
+
+
+class TestHanoiSoup:
     def test_soup(self):
-        pass
+        raise NotImplementedError
