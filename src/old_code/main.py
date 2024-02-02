@@ -1,13 +1,9 @@
-from alice_and_bob import *
-from graphs import *
-from hanoi import *
-from one_bit_clock import *
-from parcours_graphe import *
-from semantics import *
-from soup_language import *
+from graph.parent_tracer import ParentTracer
+from old_code.graphs import bfs_search
+from old_code.hanoi import HanoiGraph
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # rg = RootedGraph({1: [2, 3], 2: [3, 4], 3: [], 4: []}, 1)
     # def a(n: Node) -> bool:
     #     return n == 2
@@ -25,7 +21,6 @@ if __name__ == '__main__':
     print(t, k)
     trace = parent_tracer.get_trace(t)
     print(trace)
-
 
     # Pour prochaine fois : Alice et Bob avec un parcours jusqu'à la solution (stateA = critic and stateB = c), vérifier
     # l'absence de deadlock, mais la présence d'un livelock.
