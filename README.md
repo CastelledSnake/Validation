@@ -62,3 +62,14 @@ python3 main.py
 
 - Vincent C. (@CastelledSnake)
 - Mathis U. (@LBF38)
+
+## Notes
+
+Date limite du rendu du projet: **Lundi 12/02/2024**
+
+TODO before final release:
+
+- [ ] Finish implementation of the different types of validation
+- [ ] Finish tests
+- [ ] Add documentation (some comments on the implementation)
+- [ ] Add comments for improvements on the course
