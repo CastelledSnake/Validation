@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
+from typing import Callable
 
 from graph.rooted_graph import RootedGraph
 
 
 class Semantics(ABC):
     @abstractmethod
-    def initial(self):
+    def initial(self) -> list:
         """
         returns the initial states of the graph.
         :return: a list of nodes.
@@ -13,7 +14,7 @@ class Semantics(ABC):
         pass
 
     @abstractmethod
-    def actions(self, configuration):
+    def actions(self, configuration) -> list[Callable]:
         """
         returns the functions that a node can compute
         :param node: a node
@@ -22,7 +23,7 @@ class Semantics(ABC):
         pass
 
     @abstractmethod
-    def execute(self, action, configuration):
+    def execute(self, action: Callable, configuration):
         """
         executes an action on the node
         :param action: a function
@@ -37,7 +38,7 @@ class SemToRG(RootedGraph):
     Permet de déterminer le graphe associé à une sémantique.
     """
 
-    def __init__(self, semantics):
+    def __init__(self, semantics: Semantics):
         self.semantics = semantics
 
     def roots(self):

@@ -1,7 +1,10 @@
 from abc import ABC
 from typing import Callable, List
-from semantics import SemToRG
 from copy import deepcopy
+from graph.breadth_first_search import bfs
+from graphs import ParentTracer
+
+from old_code.semantics import SemToRG, Semantics
 
 
 class SoupConfiguration(ABC):
@@ -74,7 +77,7 @@ class SoupSpec:
         return list(filter(lambda p: p.enabled(config), self.pieces))
 
 
-class SoupSemantics:
+class SoupSemantics(Semantics):
     """
     Permet de déterminer la sémantique d'une SoupSpecification.
     """
@@ -118,6 +121,12 @@ if __name__ == "__main__":
     soup = SoupSpec([OBCConfig(0)], [p1, p2])
     soup_sem = SoupSemantics(soup)
     s = SemToRG(soup_sem)
+    parent_tracer = ParentTracer(s)
+    t, k = bfs(s, lambda c: c.clock == 1)
+    trace = parent_tracer.get_trace(t)
+    print(trace)
+    print(k)
+    print(s.roots())
 
 
 # À faire : On a """fait""" une SoupConfiguration de OneBitClock, il faut en faire une pour AliceEtBob et Hanoi.
