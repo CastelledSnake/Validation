@@ -1,5 +1,6 @@
-from graphs import RootedGraph
-from semantics import Semantics
+from typing import Iterable
+from graph.rooted_graph import RootedGraph
+from old_code.semantics import Semantics
 
 
 class ABNode:
@@ -10,7 +11,6 @@ class ABNode:
 
 
 class AliceAndBob(RootedGraph):
-
     def __init__(self):
         # Initially, nobody is in the garden.
         self.turn = 0
@@ -74,12 +74,12 @@ class AliceAndBob(RootedGraph):
         alice = {
             self.init_a: [self.wait_a],
             self.wait_a: [self.critic_a],
-            self.critic_a: [self.init_a]
+            self.critic_a: [self.init_a],
         }
         bob = {
             self.init_b: [self.wait_b],
             self.wait_b: [self.critic_b],
-            self.critic_b: [self.init_b]
+            self.critic_b: [self.init_b],
         }
         return alice, bob
 
@@ -93,6 +93,7 @@ class AliceAndBob(RootedGraph):
             return self.bob[node]
         else:
             raise ValueError(f"Node {node} is not in alice or bob")
+
     # IDEA : Define one function per action to perform, and per guard to test (8 of them in total).
 
 
@@ -142,3 +143,24 @@ class AliceAndBobExecution(Semantics):
             self.ab_graph.bob = {action}
         else:
             return ValueError
+
+
+class AliceBobV1_Graph(RootedGraph):
+    def __init__(self) -> None:
+        pass
+
+    def roots(self):
+        return []
+
+    def neighbours(self, node) -> Iterable:
+        return []
+
+
+class AliceBobV1_Semantics(Semantics):
+    def initial(self):
+        return [("I", "I")]
+
+    def actions(self, configuration):
+        actions = []
+        if configuration[0] == "I":
+            actions.append(lambda c: [("W", configuration[1])])

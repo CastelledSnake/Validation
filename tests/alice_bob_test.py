@@ -3,7 +3,13 @@
 """
 
 
+from alice_and_bob import AliceAndBob
+
+
 class TestAliceBobV1:
+    def setup(self):
+        self.alice_and_bob = AliceAndBob()
+
     def test_alice_bob_graph(self):
         pass
 
