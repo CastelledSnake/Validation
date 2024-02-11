@@ -9,7 +9,7 @@ class ParentTracer(RootedGraph):
     def roots(self):
         roots = self.rg.roots()
         for node in roots:
-            self.parents[node] = []
+            self.parents[node] = None
         return roots
 
     def neighbours(self, node):

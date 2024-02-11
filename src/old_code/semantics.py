@@ -56,5 +56,5 @@ class SemToRG(RootedGraph):
         neighbours = []
         actions = self.semantics.actions(node)
         for action in actions:
-            neighbours.extend(self.semantics.execute(node, action))
+            neighbours.extend(self.semantics.execute(action, node))
         return neighbours

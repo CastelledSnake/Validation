@@ -1,5 +1,7 @@
 from collections import deque
 
+from graph.rooted_graph import RootedGraph
+
 
 # def bfs(rg, query):
 #     visited = set()
@@ -23,7 +25,7 @@ from collections import deque
 #                 queue.append(neighbour)
 #     return None, visited
 
-def bfs(rg, query):
+def bfs(rg: RootedGraph, query):
     visited = set(rg.roots())
     queue = deque(rg.roots())
 
