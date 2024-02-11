@@ -2,9 +2,9 @@ import pytest
 import sys
 
 sys.path.append("src")
-from graph.breadth_first_search import bfs
-from graph.parent_tracer import ParentTracer
-from hanoi import HanoiGraph
+from src.graph.breadth_first_search import bfs
+from src.graph.parent_tracer import ParentTracer
+from src.hanoi import HanoiGraph
 
 
 class TestHanoiGraph:

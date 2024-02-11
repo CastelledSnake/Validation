@@ -11,6 +11,10 @@ class ABNode:
 
 
 class AliceAndBob(RootedGraph):
+    """
+    First implementation of A&B.
+    Very complete, but it has been discovered that it doesn't fit with the direction of the project.
+    """
     def __init__(self):
         # Initially, nobody is in the garden.
         self.turn = 0

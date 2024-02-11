@@ -4,10 +4,10 @@
 import sys
 
 sys.path.append("src")
-from alice_and_bob import AliceAndBob, AliceBobV1_Semantics
-from graph.breadth_first_search import bfs
-from graph.parent_tracer import ParentTracer
-from old_code.semantics import SemToRG
+from src.alice_and_bob import AliceAndBob, AliceBobV1_Semantics
+from src.graph.breadth_first_search import bfs
+from src.graph.parent_tracer import ParentTracer
+from src.old_code.semantics import SemToRG
 
 
 class TestAliceBobV1:

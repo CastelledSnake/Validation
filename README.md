@@ -65,18 +65,18 @@ python3 main.py
 
 ## Notes
 
-Date limite du rendu du projet: **Lundi 12/02/2024**
+Date limite du rendu du projet: **Lundi 12/02/2024, 8h00**
 
 TODO before final release:
 
 - [ ] Finish implementation of the different types of validation
   - [ ] Implementation of AliceBob V1 (ou 0) (for @LBF38)
     - [ ] graph
-    - [ ] semantics
+    - [X] semantics
     - [ ] soup
   - [ ] Implementation of AliceBob V2 & 3 (for @CastelledSnake)
     - [ ] graph
-    - [ ] semantics
+    - [X] semantics
     - [ ] soup
 - [ ] Finish tests
 - [ ] Add documentation (some comments on the implementation)

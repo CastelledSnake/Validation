@@ -19,17 +19,17 @@ class DependentSoupSemantics(DependentSemantics):
     def __init__(self, soup: SoupSpec):
         self.soup = soup
 
-    def initials(self):
+    def initial(self):
         self.soup.initial()
 
     def actions(self, inpt, source):
         """
         Retourne les pièces dont la garde est vérifiée.
-        :param inpt:
-        :param source:
+        :param inpt: Une step
+        :param source: Un couple de configurations
         :return: Une liste de Pieces
         """
-        return filter(lambda piece: piece.guards(inpt, source), self.soup.pieces)
+        return list(filter(lambda piece: piece.guards(inpt, source), self.soup.pieces))
 
     def execute(self, piece: Piece, inpt, source):
         """

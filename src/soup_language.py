@@ -47,6 +47,9 @@ class Piece:
     def enabled(self, config):  # Possible type : SoupConfiguration
         return self.guards(config)
 
+    def enabled_dependent(self, input_t, source):  # input_t est une step.
+        return self.guards(input_t, source)
+
     def execute(self, config):  # Possible type : SoupConfiguration
         return [self.action(deepcopy(config))]
 
