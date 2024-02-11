@@ -162,5 +162,113 @@ class AliceBobV1_Semantics(Semantics):
 
     def actions(self, configuration):
         actions = []
+
         if configuration[0] == "I":
-            actions.append(lambda c: [("W", configuration[1])])
+            actions.append(lambda configuration: [("W", configuration[1])])
+        elif configuration[0] == "W":
+            actions.append(lambda configuration: [("C", configuration[1])])
+        elif configuration[0] == "C":
+            actions.append(lambda configuration: [("I", configuration[1])])
+
+        if configuration[1] == "I":
+            actions.append(lambda configuration: [(configuration[0], "W")])
+        elif configuration[1] == "W":
+            actions.append(lambda configuration: [(configuration[0], "C")])
+        elif configuration[1] == "C":
+            actions.append(lambda configuration: [(configuration[0], "I")])
+
+        return actions
+
+
+class AliceBobV2_Semantics(Semantics):
+    def initial(self):
+        return [("I", "I", 0, 0)]  # Alice, Bob, Alice's flag, Bob's flag
+
+    def actions(self, configuration):
+        actions = []
+
+        if configuration[0] == "I":
+            actions.append(
+                lambda configuration: [("W", configuration[1], 1, configuration[3])]
+            )
+        elif configuration[0] == "W" and configuration[3] == 0:
+            actions.append(
+                lambda configuration: [
+                    ("C", configuration[1], configuration[2], configuration[3])
+                ]
+            )
+        elif configuration[0] == "C":
+            actions.append(
+                lambda configuration: [("I", configuration[1], 0, configuration[3])]
+            )
+
+        if configuration[1] == "I":
+            actions.append(
+                lambda configuration: [(configuration[0], "W", configuration[2], 1)]
+            )
+        elif configuration[1] == "W" and configuration[2] == 0:
+            actions.append(
+                lambda configuration: [
+                    (configuration[0], "C", configuration[2], configuration[3])
+                ]
+            )
+        elif configuration[1] == "C":
+            actions.append(
+                lambda configuration: [(configuration[0], "I", configuration[2], 0)]
+            )
+
+        return actions
+
+    def is_deadlock(self, configuration, action):
+        return action(configuration) == []
+
+
+class AliceBobV3_Semantics(Semantics):
+    def initial(self):
+        return [("I", "I", 0, 0)]  # Alice, Bob, Alice's flag, Bob's flag
+
+    def actions(self, configuration):
+        actions = []
+
+        if configuration[0] == "I":
+            actions.append(
+                lambda configuration: [("W", configuration[1], 1, configuration[3])]
+            )
+        elif configuration[0] == "W" and configuration[3] == 0:
+            actions.append(
+                lambda configuration: [
+                    ("C", configuration[1], configuration[2], configuration[3])
+                ]
+            )
+        elif configuration[0] == "W" and configuration[3] == 1:
+            actions.append(
+                lambda configuration: [("I", configuration[1], 0, configuration[3])]
+            )
+        elif configuration[0] == "C":
+            actions.append(
+                lambda configuration: [("I", configuration[1], 0, configuration[3])]
+            )
+
+        if configuration[1] == "I":
+            actions.append(
+                lambda configuration: [(configuration[0], "W", configuration[2], 1)]
+            )
+        elif configuration[1] == "W" and configuration[2] == 0:
+            actions.append(
+                lambda configuration: [
+                    (configuration[0], "C", configuration[2], configuration[3])
+                ]
+            )
+        elif configuration[1] == "W" and configuration[2] == 1:
+            actions.append(
+                lambda configuration: [(configuration[0], "I", configuration[2], 0)]
+            )
+        elif configuration[1] == "C":
+            actions.append(
+                lambda configuration: [(configuration[0], "I", configuration[2], 0)]
+            )
+
+        return actions
+
+    def is_solution(self, configuration):
+        return configuration[0] == "C" and configuration[1] == "C"

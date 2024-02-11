@@ -22,8 +22,7 @@ class Semantics(ABC):
         """
         pass
 
-    @abstractmethod
-    def execute(self, action: Callable, configuration):
+    def execute(self, action, configuration):
         """
         executes an action on the node
         :param action: a function

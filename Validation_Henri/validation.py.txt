@@ -92,7 +92,7 @@ class Semantics:
     def initial(self):
         raise NotImplementedError
 
-    def actions(self, configuration): 
+    def actions(self, configuration):
         raise NotImplementedError
 
     def execute(self, configuration, action):
@@ -119,7 +119,7 @@ class Semantics_to_RG(RootedGraph):
 class AliceAndBob0(Semantics):
     def initial(self):
         return [("I", "I")]
-    
+
     def actions (self, configuration):
         actions = []
 
@@ -143,18 +143,18 @@ class AliceAndBob0(Semantics):
 class AliceAndBob1(Semantics):
     def initial(self):
         return [("I", "I", 0, 0)] # Alice, Bob, Alice's flag, Bob's flag
-    
+
     def actions (self, configuration):
         actions = []
 
-        if (configuration[0] == "I"): 
+        if (configuration[0] == "I"):
             actions.append(lambda configuration: [("W", configuration[1], 1, configuration[3])])
         elif (configuration[0] == "W" and configuration[3] == 0):
             actions.append(lambda configuration: [("C", configuration[1], configuration[2], configuration[3])])
         elif (configuration[0] == "C"):
             actions.append(lambda configuration: [("I", configuration[1], 0, configuration[3])])
 
-        if (configuration[1] == "I"): 
+        if (configuration[1] == "I"):
             actions.append(lambda configuration: [(configuration[0], "W", configuration[2], 1)])
         elif (configuration[1] == "W" and configuration[2] == 0):
             actions.append(lambda configuration: [(configuration[0], "C", configuration[2], configuration[3])])
@@ -162,7 +162,7 @@ class AliceAndBob1(Semantics):
             actions.append(lambda configuration: [(configuration[0], "I", configuration[2], 0)])
 
         return actions
-    
+
     def is_deadlock(self, configuration, action):
         return action(configuration) == []
 
@@ -170,11 +170,11 @@ class AliceAndBob1(Semantics):
 class AliceAndBob2(Semantics):
     def initial(self):
         return [("I", "I", 0, 0)] # Alice, Bob, Alice's flag, Bob's flag
-    
+
     def actions (self, configuration):
         actions = []
 
-        if (configuration[0] == "I"): 
+        if (configuration[0] == "I"):
             actions.append(lambda configuration: [("W", configuration[1], 1, configuration[3])])
         elif (configuration[0] == "W" and configuration[3] == 0):
             actions.append(lambda configuration: [("C", configuration[1], configuration[2], configuration[3])])
@@ -183,7 +183,7 @@ class AliceAndBob2(Semantics):
         elif (configuration[0] == "C"):
             actions.append(lambda configuration: [("I", configuration[1], 0, configuration[3])])
 
-        if (configuration[1] == "I"): 
+        if (configuration[1] == "I"):
             actions.append(lambda configuration: [(configuration[0], "W", configuration[2], 1)])
         elif (configuration[1] == "W" and configuration[2] == 0):
             actions.append(lambda configuration: [(configuration[0], "C", configuration[2], configuration[3])])
@@ -193,7 +193,7 @@ class AliceAndBob2(Semantics):
             actions.append(lambda configuration: [(configuration[0], "I", configuration[2], 0)])
 
         return actions
-    
+
     def is_solution(self, configuration):
         return configuration[0] == "C" and configuration[1] == "C"
 
@@ -201,7 +201,7 @@ class AliceAndBob2(Semantics):
 class OneBitClock(Semantics):
     def initial(self):
         return [0, 1]
-    
+
     def actions(self, configuration):
         actions = []
         if (configuration == 1):
@@ -262,12 +262,12 @@ if __name__ == '__main__':
 
     ###########################################################################
     alice_and_bob = Semantics_to_RG(AliceAndBob0())
-    def is_solution(configuration):
+    def is_solution0(configuration):
         # faire une lambda fonction pour ca ?
         # et pour vérifier les Deadlocks aussi
         return configuration == ("C", "C")
     parents = ParentTracer(alice_and_bob)
-    target, visited = bfs_search(parents, is_solution)
+    target, visited = bfs_search(parents, is_solution0)
     print("SEARCH target found", target)
     print("SEARCH visited", visited)
     if target is not None:
@@ -276,14 +276,14 @@ if __name__ == '__main__':
         print("LINEAGE target is None")
 
     ###########################################################################
-    # alice_and_bob = Semantics_to_RG(AliceAndBob1())
-    # def is_solution(configuration):
-    #     return configuration[0] == "C" and configuration[1] == "C"
-    # parents = ParentTracer(alice_and_bob)
-    # target, visited = bfs_search(parents, is_solution)
-    # print("SEARCH target found", target)
-    # print("SEARCH visited", visited)
-    # if target is not None:
-    #     print("LINEAGE", parents.lineage(target))
-    # else:
-    #     print("LINEAGE target is None")
+    alice_and_bob = Semantics_to_RG(AliceAndBob1())
+    def is_solution1(configuration):
+        return configuration[0] == "C" and configuration[1] == "C"
+    parents = ParentTracer(alice_and_bob)
+    target, visited = bfs_search(parents, is_solution1)
+    print("SEARCH target found", target)
+    print("SEARCH visited", visited)
+    if target is not None:
+        print("LINEAGE", parents.lineage(target))
+    else:
+        print("LINEAGE target is None")

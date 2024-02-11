@@ -17,6 +17,7 @@
         "config",
         "graph",
         "semantics",
-        "hanoi"
+        "hanoi",
+        "project"
     ]
 }
