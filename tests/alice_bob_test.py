@@ -1,7 +1,9 @@
 """
     3 premières versions du TD vérification
 """
+import sys
 
+sys.path.append("src")
 
 from alice_and_bob import AliceAndBob
 
