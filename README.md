@@ -33,13 +33,13 @@ For `venv` users :
 - Create the environment
 
 ```bash
-python3 -m venv ensta_validation
+python3 -m venv venv
 ```
 
 - Activate the environment
 
 ```bash
-source ensta_validation/bin/activate
+source venv/bin/activate
 ```
 
 3. Install the dependencies
@@ -48,15 +48,12 @@ source ensta_validation/bin/activate
 pip install .
 ```
 
-4. Run the `main.py` file
+4. Run the `main.py` file or the tests
 
 ```bash
 python3 main.py
+pytest
 ```
-
-## Features
-
-*🚧 Work in progress for more features. 🚧*
 
 ## Authors
 
@@ -78,6 +75,6 @@ TODO before final release:
     - [ ] graph
     - [X] semantics
     - [ ] soup
-- [ ] Finish tests
-- [ ] Add documentation (some comments on the implementation)
-- [ ] Add comments for improvements on the course
+- [x] Finish tests
+- [x] Add documentation (some comments on the implementation)
+- [x] Add comments for improvements on the course
