@@ -77,4 +77,4 @@ TODO before final release:
     - [ ] soup
 - [x] Finish tests
 - [x] Add documentation (some comments on the implementation)
-- [x] Add comments for improvements on the course
+- [x] Add [comments for improvements on the course](./Comments%20on%20the%20course.md)
